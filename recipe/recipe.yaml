@@ -1,0 +1,88 @@
+schema_version: 1
+
+context:
+  name: nvim
+  version: 0.10.2
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/neovim/neovim/archive/v${{ version }}.tar.gz
+  sha256: 546cb2da9fffbb7e913261344bbf4cf1622721f6c5a67aa77609e976e78b8e89
+
+build:
+  number: 0
+  skip:
+    - win
+
+requirements:
+  build:
+    - ${{ pin_subpackage('libtree-sitter', upper_bound='0.24') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - cmake
+    - make
+    - pkg-config
+    - if: build_platform != target_platform
+      then: gettext
+    - if: osx
+      then: libiconv
+    - if: build_platform != target_platform
+      then: libmpack-lua
+    - if: build_platform != target_platform
+      then: libtree-sitter
+    - if: build_platform != target_platform
+      then: libuv
+    - if: build_platform != target_platform
+      then: libvterm
+    - if: build_platform != target_platform
+      then: lua-lpeg
+    - if: build_platform != target_platform
+      then: luajit-openresty
+    - if: build_platform != target_platform
+      then: luv
+    - if: build_platform != target_platform
+      then: msgpack-c
+    - if: build_platform != target_platform
+      then: unibilium
+  host:
+    - if: osx
+      then: libiconv
+    - libtree-sitter
+    - libuv
+    - libvterm
+    - lua-lpeg
+    - luajit-openresty
+    - luv
+    - msgpack-c
+    - unibilium
+  run:
+    - if: osx
+      then: libiconv
+    - libtree-sitter
+    - libuv
+    - libvterm
+    - lua-lpeg
+    - luajit-openresty
+    - luv
+    - msgpack-c
+    - unibilium
+
+tests:
+  - script:
+      - nvim --version
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: Ambitious Vim-fork focused on extensibility and agility
+  homepage: https://neovim.io/
+  repository: https://github.com/neovim/neovim
+
+extra:
+  recipe-maintainers:
+    - danielnachun
+    - anjos
+
