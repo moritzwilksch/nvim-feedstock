@@ -13,18 +13,16 @@ source:
   sha256: 546cb2da9fffbb7e913261344bbf4cf1622721f6c5a67aa77609e976e78b8e89
 
 build:
-  number: 0
-  skip:
-    - win
+  number: 2
 
 requirements:
   build:
-    - ${{ pin_subpackage('libtree-sitter', upper_bound='0.24') }}
     - ${{ compiler('c') }}
     - ${{ stdlib("c") }}
     - cmake
     - make
     - pkg-config
+    - ninja
     - if: build_platform != target_platform
       then: gettext
     - if: osx
@@ -53,7 +51,11 @@ requirements:
     - libtree-sitter
     - libuv
     - libvterm
+    - libutf8proc
     - lua-lpeg
+    - libintl
+    - libintl-devel
+    - gettext
     - luajit-openresty
     - luv
     - msgpack-c
@@ -68,6 +70,7 @@ requirements:
     - luajit-openresty
     - luv
     - msgpack-c
+    - libutf8proc
     - unibilium
 
 tests:
@@ -85,4 +88,5 @@ extra:
   recipe-maintainers:
     - danielnachun
     - anjos
+    - pavelzw
 
